@@ -1,10 +1,11 @@
 "use client"
 
 import { useForm } from "react-hook-form";
+import {DevTool} from '@hookform/devtools'
 
 
 export default function Home() {
-  const {register} = useForm() 
+  const {register, control} = useForm() 
   
   return <div className="">
     <h1>YouTube form</h1>
@@ -24,5 +25,6 @@ export default function Home() {
       <button className="rounded bg-slate-600 p-4 py-2 text-white">Submit</button>
 
     </form>
+    <DevTool control={control} />
   </div>;
 }
