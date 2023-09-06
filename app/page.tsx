@@ -1,4 +1,9 @@
+import { useForm } from "react-hook-form";
+
+
 export default function Home() {
+  const form = useForm() 
+  
   return <div className="">
     <h1>YouTube form</h1>
     <form className="w-[40%] bg-slate-200 rounded p-8 mx-auto mt-20">
