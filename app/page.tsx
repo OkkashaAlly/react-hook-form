@@ -9,7 +9,9 @@ type FormValues = {
   channel: string;
   socials: {
     facebook: string;
-    twitter: string;}
+    twitter: string;},
+    phoneNumbers: string[];
+
 };
 
 export default function Home() {
@@ -26,7 +28,8 @@ export default function Home() {
         socials: {
           facebook: "",
           twitter: "",
-        }
+        },
+        phoneNumbers: ['',''],
       };
     },
     // defaultValues: {
@@ -125,6 +128,29 @@ export default function Home() {
             type="text"
             id="twitter"
             {...register("socials.twitter")}
+          />
+          
+        </div>
+        
+        <div className="flex flex-col gap-2 mb-3">
+          <label htmlFor="primary-phone-number">Primary Phone Number: </label>
+          <input
+            className="border border-slate-400 text-2xl rounded "
+            type="text"
+            id="primary-phone-number"
+            {...register("phoneNumbers.0")}
+          />
+          
+        </div>
+
+        
+        <div className="flex flex-col gap-2 mb-3">
+          <label htmlFor="secondary-phone-number">Secondary Phone Number: </label>
+          <input
+            className="border border-slate-400 text-2xl rounded "
+            type="text"
+            id="secondary-phone-number"
+            {...register("phoneNumbers.1")}
           />
           
         </div>
