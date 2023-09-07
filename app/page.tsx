@@ -3,18 +3,24 @@
 import { useForm } from "react-hook-form";
 import {DevTool} from '@hookform/devtools'
 
-let renderCount = 0;
+type FormValues = {
+  username: string
+  email: string
+  channel: string
+}
 
 export default function Home() {
-  const {register, control, watch} = useForm() 
+  const {register, control, handleSubmit} = useForm<FormValues>() 
 
-  const name = watch('username')
+  // const name = watch('username')
   
-  renderCount++
+ const onSubmit = (data: FormValues) => {
+    console.log(data)
+  }
   
   return <div className="">
-    <h1>YouTube form({renderCount/2} - {name})</h1>
-    <form className="w-[40%] bg-slate-200 rounded p-8 mx-auto mt-20">
+    <h1>YouTube form</h1>
+    <form onSubmit={handleSubmit(onSubmit)} className="w-[40%] bg-slate-200 rounded p-8 mx-auto mt-20">
       <div className="flex flex-col gap-2 mb-3">
         <label htmlFor="name">Name: </label>
         <input className="border border-slate-400 text-2xl rounded " type="text" id="name" {...register('username')} />
