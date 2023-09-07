@@ -55,6 +55,12 @@ export default function Home() {
                 value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
                 message: "invalid email",
               },
+              validate: {
+                notAdmin: (fieldValue) =>
+                  fieldValue.toLowerCase() !== "admin@example.com" || "Enter a different email",
+                notBlackListed: (fieldValue) =>
+                 !fieldValue.toLowerCase().endsWith("baddomain.com") || "This Email domain is not supported",
+              }
             })}
           />
           {errors.email && (
