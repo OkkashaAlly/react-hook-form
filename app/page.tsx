@@ -10,7 +10,24 @@ type FormValues = {
 };
 
 export default function Home() {
-  const { register, control, handleSubmit, formState } = useForm<FormValues>();
+  const { register, control, handleSubmit, formState } = useForm<FormValues>({
+    defaultValues: async () => {
+      const response = await fetch(
+        "https://jsonplaceholder.typicode.com/users/1"
+      );
+      const data = await response.json();
+      return {
+        username: data.name,
+        email: data.email,
+        channel: "",
+      };
+    },
+    // defaultValues: {
+    //   username: "Okkasha",
+    //   email: "",
+    //   channel: "",
+    // },
+  });
 
   const { errors } = formState;
   // const name = watch('username')
@@ -56,11 +73,13 @@ export default function Home() {
                 message: "invalid email",
               },
               validate: {
-                notAdmin: (fieldValue) =>
-                  fieldValue.toLowerCase() !== "admin@example.com" || "Enter a different email",
-                notBlackListed: (fieldValue) =>
-                 !fieldValue.toLowerCase().endsWith("baddomain.com") || "This Email domain is not supported",
-              }
+                notAdmin: fieldValue =>
+                  fieldValue.toLowerCase() !== "admin@example.com" ||
+                  "Enter a different email",
+                notBlackListed: fieldValue =>
+                  !fieldValue.toLowerCase().endsWith("baddomain.com") ||
+                  "This Email domain is not supported",
+              },
             })}
           />
           {errors.email && (
