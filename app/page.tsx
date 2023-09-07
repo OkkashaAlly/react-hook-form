@@ -23,11 +23,21 @@ export default function Home() {
     <form onSubmit={handleSubmit(onSubmit)} className="w-[40%] bg-slate-200 rounded p-8 mx-auto mt-20">
       <div className="flex flex-col gap-2 mb-3">
         <label htmlFor="name">Name: </label>
-        <input className="border border-slate-400 text-2xl rounded " type="text" id="name" {...register('username')} />
+        <input className="border border-slate-400 text-2xl rounded " type="text" id="name" {...register('username', {
+          required: {
+            value: true,
+            message:  'this field is required'
+          }
+        })} />
       </div>
       <div className="flex flex-col gap-2 mb-3">
         <label htmlFor="email">Email: </label>
-        <input className="border border-slate-400 text-2xl rounded " type="text" id="email" {...register('email')} />
+        <input className="border border-slate-400 text-2xl rounded " type="text" id="email" {...register('email',{
+          pattern: {
+            value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+            message: 'invalid email'
+          }
+        })} />
       </div>
       <div className="flex flex-col gap-2 mb-3">
         <label htmlFor="channel">Channel: </label>
