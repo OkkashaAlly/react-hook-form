@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import { DevTool } from "@hookform/devtools";
 import { useFieldArray, useForm } from "react-hook-form";
 
@@ -19,7 +19,7 @@ type FormValues = {
 };
 
 export default function Home() {
-  const { register, control, handleSubmit, formState, watch } =
+  const { register, control, handleSubmit, formState, watch, getValues } =
     useForm<FormValues>({
       defaultValues: async () => {
         const response = await fetch(
@@ -58,13 +58,19 @@ export default function Home() {
   // const formFields = watch(["username", "email"]);
   // const watchForm = watch();
 
-  useEffect(()=> {
-    const subscription = watch((value) => {
-      console.log(value);
-    }
-    );
-    return () => subscription.unsubscribe();
-  }, [watch])
+  // useEffect(()=> {
+  //   const subscription = watch((value) => {
+  //     console.log(value);
+  //   }
+  //   );
+  //   return () => subscription.unsubscribe();
+  // }, [watch])
+
+  const handleGetValues = () => {
+    // console.log("GEt values:", getValues());
+    // console.log("GEt values:", getValues("username"));
+    console.log("GEt values:" ,getValues(["username", "email"]));
+  };
 
   const onSubmit = (data: FormValues) => {
     console.log(data);
@@ -233,6 +239,13 @@ export default function Home() {
 
         <button className="rounded bg-slate-600 p-4 py-2 text-white">
           Submit
+        </button>
+        <button
+          onClick={handleGetValues}
+          type="button"
+          className="rounded bg-slate-600 p-4 py-2 text-white"
+        >
+          Get values
         </button>
       </form>
       <DevTool control={control} />
