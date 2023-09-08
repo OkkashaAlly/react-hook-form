@@ -19,33 +19,40 @@ type FormValues = {
 };
 
 export default function Home() {
-  const { register, control, handleSubmit, formState, watch, getValues } =
-    useForm<FormValues>({
-      defaultValues: async () => {
-        const response = await fetch(
-          "https://jsonplaceholder.typicode.com/users/1"
-        );
-        const data = await response.json();
-        return {
-          username: data.name,
-          email: data.email,
-          channel: "",
-          socials: {
-            facebook: "",
-            twitter: "",
-          },
-          phoneNumbers: ["", ""],
-          phNumbers: [{ number: "" }],
-          age: 0,
-          date: new Date(),
-        };
-      },
-      // defaultValues: {
-      //   username: "Okkasha",
-      //   email: "",
-      //   channel: "",
-      // },
-    });
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState,
+    watch,
+    getValues,
+    setValue,
+  } = useForm<FormValues>({
+    defaultValues: async () => {
+      const response = await fetch(
+        "https://jsonplaceholder.typicode.com/users/1"
+      );
+      const data = await response.json();
+      return {
+        username: data.name,
+        email: data.email,
+        channel: "",
+        socials: {
+          facebook: "",
+          twitter: "",
+        },
+        phoneNumbers: ["", ""],
+        phNumbers: [{ number: "" }],
+        age: 0,
+        date: new Date(),
+      };
+    },
+    // defaultValues: {
+    //   username: "Okkasha",
+    //   email: "",
+    //   channel: "",
+    // },
+  });
 
   const { fields, append, remove } = useFieldArray({
     name: "phNumbers",
@@ -69,7 +76,16 @@ export default function Home() {
   const handleGetValues = () => {
     // console.log("GEt values:", getValues());
     // console.log("GEt values:", getValues("username"));
-    console.log("GEt values:" ,getValues(["username", "email"]));
+    console.log("GEt values:", getValues(["username", "email"]));
+  };
+
+  const handleSetValue = () => {
+    // setValue("username", "Okkasha");
+    setValue("username", "",{
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true,
+    });
   };
 
   const onSubmit = (data: FormValues) => {
@@ -246,6 +262,13 @@ export default function Home() {
           className="rounded bg-slate-600 p-4 py-2 text-white"
         >
           Get values
+        </button>
+        <button
+          onClick={handleSetValue}
+          type="button"
+          className="rounded bg-slate-600 p-4 py-2 text-white"
+        >
+          Set value
         </button>
       </form>
       <DevTool control={control} />
