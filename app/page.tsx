@@ -1,7 +1,7 @@
 "use client";
 
 import { DevTool } from "@hookform/devtools";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 
 type FormValues = {
   username: string;
@@ -9,9 +9,10 @@ type FormValues = {
   channel: string;
   socials: {
     facebook: string;
-    twitter: string;},
-    phoneNumbers: string[];
-
+    twitter: string;
+  };
+  phoneNumbers: string[];
+  phNumbers: { number: string }[];
 };
 
 export default function Home() {
@@ -29,7 +30,8 @@ export default function Home() {
           facebook: "",
           twitter: "",
         },
-        phoneNumbers: ['',''],
+        phoneNumbers: ["", ""],
+        phNumbers: [{ number: "" }],
       };
     },
     // defaultValues: {
@@ -37,6 +39,11 @@ export default function Home() {
     //   email: "",
     //   channel: "",
     // },
+  });
+
+  const { fields, append, remove } = useFieldArray({
+    name: "phNumbers",
+    control,
   });
 
   const { errors } = formState;
@@ -118,9 +125,8 @@ export default function Home() {
             id="facebook"
             {...register("socials.facebook")}
           />
-          
         </div>
-        
+
         <div className="flex flex-col gap-2 mb-3">
           <label htmlFor="twitter">Twitter: </label>
           <input
@@ -129,9 +135,8 @@ export default function Home() {
             id="twitter"
             {...register("socials.twitter")}
           />
-          
         </div>
-        
+
         <div className="flex flex-col gap-2 mb-3">
           <label htmlFor="primary-phone-number">Primary Phone Number: </label>
           <input
@@ -140,19 +145,41 @@ export default function Home() {
             id="primary-phone-number"
             {...register("phoneNumbers.0")}
           />
-          
         </div>
 
-        
         <div className="flex flex-col gap-2 mb-3">
-          <label htmlFor="secondary-phone-number">Secondary Phone Number: </label>
+          <label htmlFor="secondary-phone-number">
+            Secondary Phone Number:{" "}
+          </label>
           <input
             className="border border-slate-400 text-2xl rounded "
             type="text"
             id="secondary-phone-number"
             {...register("phoneNumbers.1")}
           />
-          
+        </div>
+        <div className="flex flex-col gap-2 mb-3">
+          <label htmlFor="secondary-phone-number">List of phone numbers</label>
+          <div className="">
+            {fields.map((field, index) => (
+              <div key={field.id}>
+                <input
+                  className="border border-slate-400 text-2xl rounded "
+                  type="text"
+                  id="secondary-phone-number"
+                  {...register(`phNumbers.${index}.number` as const)}
+                />
+                {index > 0 && (
+                  <button type="button" onClick={() => remove(index)}>
+                    Delete
+                  </button>
+                )}
+              </div>
+            ))}
+            <button type="button" onClick={() => append({ number: "" })}>
+              Add
+            </button>
+          </div>
         </div>
 
         <button className="rounded bg-slate-600 p-4 py-2 text-white">
