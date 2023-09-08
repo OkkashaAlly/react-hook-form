@@ -27,6 +27,7 @@ export default function Home() {
     watch,
     getValues,
     setValue,
+    
   } = useForm<FormValues>({
     defaultValues: async () => {
       const response = await fetch(
@@ -54,14 +55,18 @@ export default function Home() {
     // },
   });
 
+  
   const { fields, append, remove } = useFieldArray({
     name: "phNumbers",
     control,
   });
 
-  const { errors } = formState;
+  const { errors,touchedFields,
+    dirtyFields, isDirty } = formState;
+    
+    console.log({ touchedFields, dirtyFields, isDirty})
 
-  // const name = watch("username");
+    // const name = watch("username");
   // const formFields = watch(["username", "email"]);
   // const watchForm = watch();
 
