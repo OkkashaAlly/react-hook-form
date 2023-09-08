@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { DevTool } from "@hookform/devtools";
 import { useFieldArray, useForm } from "react-hook-form";
 
@@ -18,32 +19,33 @@ type FormValues = {
 };
 
 export default function Home() {
-  const { register, control, handleSubmit, formState } = useForm<FormValues>({
-    defaultValues: async () => {
-      const response = await fetch(
-        "https://jsonplaceholder.typicode.com/users/1"
-      );
-      const data = await response.json();
-      return {
-        username: data.name,
-        email: data.email,
-        channel: "",
-        socials: {
-          facebook: "",
-          twitter: "",
-        },
-        phoneNumbers: ["", ""],
-        phNumbers: [{ number: "" }],
-        age: 0,
-        date: new Date(),
-      };
-    },
-    // defaultValues: {
-    //   username: "Okkasha",
-    //   email: "",
-    //   channel: "",
-    // },
-  });
+  const { register, control, handleSubmit, formState, watch } =
+    useForm<FormValues>({
+      defaultValues: async () => {
+        const response = await fetch(
+          "https://jsonplaceholder.typicode.com/users/1"
+        );
+        const data = await response.json();
+        return {
+          username: data.name,
+          email: data.email,
+          channel: "",
+          socials: {
+            facebook: "",
+            twitter: "",
+          },
+          phoneNumbers: ["", ""],
+          phNumbers: [{ number: "" }],
+          age: 0,
+          date: new Date(),
+        };
+      },
+      // defaultValues: {
+      //   username: "Okkasha",
+      //   email: "",
+      //   channel: "",
+      // },
+    });
 
   const { fields, append, remove } = useFieldArray({
     name: "phNumbers",
@@ -51,7 +53,18 @@ export default function Home() {
   });
 
   const { errors } = formState;
-  // const name = watch('username')
+
+  // const name = watch("username");
+  // const formFields = watch(["username", "email"]);
+  // const watchForm = watch();
+
+  useEffect(()=> {
+    const subscription = watch((value) => {
+      console.log(value);
+    }
+    );
+    return () => subscription.unsubscribe();
+  }, [watch])
 
   const onSubmit = (data: FormValues) => {
     console.log(data);
@@ -59,7 +72,7 @@ export default function Home() {
 
   return (
     <div className="">
-      <h1>YouTube form</h1>
+      <h1>YouTube form: ({})</h1>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="w-[40%] bg-slate-200 rounded p-8 mx-auto mt-20"
