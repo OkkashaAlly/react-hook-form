@@ -13,6 +13,8 @@ type FormValues = {
   };
   phoneNumbers: string[];
   phNumbers: { number: string }[];
+  age: number;
+  date: Date;
 };
 
 export default function Home() {
@@ -32,6 +34,8 @@ export default function Home() {
         },
         phoneNumbers: ["", ""],
         phNumbers: [{ number: "" }],
+        age: 0,
+        date: new Date(),
       };
     },
     // defaultValues: {
@@ -180,6 +184,38 @@ export default function Home() {
               Add
             </button>
           </div>
+        </div>
+
+        <div className="flex flex-col gap-2 mb-3">
+          <label htmlFor="age">Age: </label>
+          <input
+            className="border border-slate-400 text-2xl rounded "
+            type="number"
+            id="age"
+            {...register("age", {
+              valueAsNumber: true,
+              required: "This field is required",
+            })}
+          />
+          {errors.age && (
+            <p className="text-red-500 text-sm">{errors.age.message}</p>
+          )}
+        </div>
+
+        <div className="flex flex-col gap-2 mb-3">
+          <label htmlFor="date">Date of Birth: </label>
+          <input
+            className="border border-slate-400 text-2xl rounded "
+            type="date"
+            id="date"
+            {...register("date", {
+              valueAsDate: true,
+              required: "This field is required",
+            })}
+          />
+          {errors.date && (
+            <p className="text-red-500 text-sm">{errors.date.message}</p>
+          )}
         </div>
 
         <button className="rounded bg-slate-600 p-4 py-2 text-white">
