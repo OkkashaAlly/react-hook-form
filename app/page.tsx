@@ -2,7 +2,7 @@
 
 // import { useEffect } from "react";
 import { DevTool } from "@hookform/devtools";
-import { useFieldArray, useForm } from "react-hook-form";
+import { FieldErrors, useFieldArray, useForm } from "react-hook-form";
 
 type FormValues = {
   username: string;
@@ -64,7 +64,7 @@ export default function Home() {
   const { errors,touchedFields,
     dirtyFields, isDirty } = formState;
     
-    console.log({ touchedFields, dirtyFields, isDirty})
+    // console.log({ touchedFields, dirtyFields, isDirty})
 
     // const name = watch("username");
   // const formFields = watch(["username", "email"]);
@@ -97,11 +97,16 @@ export default function Home() {
     console.log(data);
   };
 
+  const onError = (errors: FieldErrors<FormValues>) => {
+    console.log("🚀 ~ file: page.tsx:101 ~ onError ~ errors:", errors)
+    
+  };
+
   return (
     <div className="">
       <h1>YouTube form: ({})</h1>
       <form
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(onSubmit, onError)}
         className="w-[40%] bg-slate-200 rounded p-8 mx-auto mt-20"
       >
         <div className="flex flex-col gap-2 mb-3">
