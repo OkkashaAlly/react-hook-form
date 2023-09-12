@@ -27,7 +27,6 @@ export default function Home() {
     watch,
     getValues,
     setValue,
-    
   } = useForm<FormValues>({
     defaultValues: async () => {
       const response = await fetch(
@@ -55,18 +54,16 @@ export default function Home() {
     // },
   });
 
-  
   const { fields, append, remove } = useFieldArray({
     name: "phNumbers",
     control,
   });
 
-  const { errors,touchedFields,
-    dirtyFields, isDirty, isValid } = formState;
-    
-    // console.log({ touchedFields, dirtyFields, isDirty})
+  const { errors, touchedFields, dirtyFields, isDirty, isValid, isSubmitting, isSubmitted, isSubmitSuccessful, submitCount } = formState;
 
-    // const name = watch("username");
+  // console.log({ touchedFields, dirtyFields, isDirty})
+
+  // const name = watch("username");
   // const formFields = watch(["username", "email"]);
   // const watchForm = watch();
 
@@ -86,7 +83,7 @@ export default function Home() {
 
   const handleSetValue = () => {
     // setValue("username", "Okkasha");
-    setValue("username", "",{
+    setValue("username", "", {
       shouldValidate: true,
       shouldDirty: true,
       shouldTouch: true,
@@ -98,8 +95,7 @@ export default function Home() {
   };
 
   const onError = (errors: FieldErrors<FormValues>) => {
-    console.log("🚀 ~ file: page.tsx:101 ~ onError ~ errors:", errors)
-    
+    console.log("🚀 ~ file: page.tsx:101 ~ onError ~ errors:", errors);
   };
 
   return (
@@ -184,7 +180,7 @@ export default function Home() {
             id="twitter"
             {...register("socials.twitter", {
               // disabled: watch("socials.facebook") === "",
-              disabled: true
+              disabled: true,
             })}
           />
         </div>
@@ -266,26 +262,28 @@ export default function Home() {
           )}
         </div>
 
-            <div className="flex gap-2">
-
-        <button disabled={!isDirty || !isValid} className="rounded bg-slate-600 p-4 py-2 text-white">
-          Submit
-        </button>
-        <button
-          onClick={handleGetValues}
-          type="button"
-          className="rounded bg-slate-600 p-4 py-2 text-white"
-        >
-          Get values
-        </button>
-        <button
-          onClick={handleSetValue}
-          type="button"
-          className="rounded bg-slate-600 p-4 py-2 text-white"
-        >
-          Set value
-        </button>
-            </div>
+        <div className="flex gap-2">
+          <button
+            disabled={!isDirty || !isValid || isSubmitting}
+            className="rounded bg-slate-600 p-4 py-2 text-white"
+          >
+            Submit
+          </button>
+          <button
+            onClick={handleGetValues}
+            type="button"
+            className="rounded bg-slate-600 p-4 py-2 text-white"
+          >
+            Get values
+          </button>
+          <button
+            onClick={handleSetValue}
+            type="button"
+            className="rounded bg-slate-600 p-4 py-2 text-white"
+          >
+            Set value
+          </button>
+        </div>
       </form>
       <DevTool control={control} />
     </div>
