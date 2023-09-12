@@ -54,6 +54,11 @@ export default function Home() {
     //   email: "",
     //   channel: "",
     // },
+    mode: "onSubmit", // default
+    // mode: "onBlur",
+    // mode: "onTouched",
+    // mode: "onChange",
+    // mode: "all",
   });
 
   const { fields, append, remove } = useFieldArray({
