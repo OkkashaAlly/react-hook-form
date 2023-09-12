@@ -2,6 +2,7 @@
 
 // import { useEffect } from "react";
 import { DevTool } from "@hookform/devtools";
+import { useEffect } from "react";
 import { FieldErrors, useFieldArray, useForm } from "react-hook-form";
 
 type FormValues = {
@@ -27,6 +28,7 @@ export default function Home() {
     watch,
     getValues,
     setValue,
+    reset,
   } = useForm<FormValues>({
     defaultValues: async () => {
       const response = await fetch(
@@ -59,7 +61,17 @@ export default function Home() {
     control,
   });
 
-  const { errors, touchedFields, dirtyFields, isDirty, isValid, isSubmitting, isSubmitted, isSubmitSuccessful, submitCount } = formState;
+  const {
+    errors,
+    touchedFields,
+    dirtyFields,
+    isDirty,
+    isValid,
+    isSubmitting,
+    isSubmitted,
+    isSubmitSuccessful,
+    submitCount,
+  } = formState;
 
   // console.log({ touchedFields, dirtyFields, isDirty})
 
@@ -97,6 +109,10 @@ export default function Home() {
   const onError = (errors: FieldErrors<FormValues>) => {
     console.log("🚀 ~ file: page.tsx:101 ~ onError ~ errors:", errors);
   };
+
+  useEffect(() => {
+    isSubmitSuccessful && reset();
+  }, [isSubmitSuccessful, reset]);
 
   return (
     <div className="">
@@ -268,6 +284,13 @@ export default function Home() {
             className="rounded bg-slate-600 p-4 py-2 text-white"
           >
             Submit
+          </button>
+          <button
+            onClick={() => reset()}
+            type="button"
+            className="rounded bg-slate-600 p-4 py-2 text-white"
+          >
+            Clear fields(reset)
           </button>
           <button
             onClick={handleGetValues}
