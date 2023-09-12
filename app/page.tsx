@@ -62,7 +62,7 @@ export default function Home() {
   });
 
   const { errors,touchedFields,
-    dirtyFields, isDirty } = formState;
+    dirtyFields, isDirty, isValid } = formState;
     
     // console.log({ touchedFields, dirtyFields, isDirty})
 
@@ -266,7 +266,9 @@ export default function Home() {
           )}
         </div>
 
-        <button className="rounded bg-slate-600 p-4 py-2 text-white">
+            <div className="flex gap-2">
+
+        <button disabled={!isDirty || !isValid} className="rounded bg-slate-600 p-4 py-2 text-white">
           Submit
         </button>
         <button
@@ -283,6 +285,7 @@ export default function Home() {
         >
           Set value
         </button>
+            </div>
       </form>
       <DevTool control={control} />
     </div>
