@@ -177,7 +177,10 @@ export default function Home() {
             className="border border-slate-400 text-2xl rounded "
             type="text"
             id="twitter"
-            {...register("socials.twitter")}
+            {...register("socials.twitter", {
+              // disabled: watch("socials.facebook") === "",
+              disabled: true
+            })}
           />
         </div>
 
