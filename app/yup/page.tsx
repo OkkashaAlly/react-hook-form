@@ -20,7 +20,6 @@ const schema = Yup.object().shape({
 export default function Home() {
   const {
     register,
-
     handleSubmit,
     formState,
   } = useForm<FormValues>({
